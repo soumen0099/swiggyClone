@@ -85,68 +85,93 @@
 
 
 import React, { useState } from 'react';
-import { RxCaretDown } from 'react-icons/rx';
-import { IoIosSearch } from 'react-icons/io';
-import { RiDiscountPercentLine } from 'react-icons/ri';
-import { LiaHandsHelpingSolid } from 'react-icons/lia';
-import { IoIosContact } from 'react-icons/io';
-import { FaOpencart } from 'react-icons/fa';
-import { FiMenu } from 'react-icons/fi';
-import { IoMdClose } from 'react-icons/io';
+import { RxCaretDown } from "react-icons/rx";
+import { IoIosSearch } from "react-icons/io";
+import { RiDiscountPercentLine } from "react-icons/ri";
+import { LiaHandsHelpingSolid } from "react-icons/lia";
+import { IoIosContact } from "react-icons/io";
+import { FaOpencart } from "react-icons/fa";
 
 function Header() {
   const [toggle, setToggle] = useState(false);
+
   const links = [
-    { icon: <IoIosSearch />, name: 'Search' },
-    { icon: <RiDiscountPercentLine />, name: 'Offers', sup: 'New' },
-    { icon: <LiaHandsHelpingSolid />, name: 'Help' },
-    { icon: <IoIosContact />, name: 'Sign In' },
-    { icon: <FaOpencart />, name: 'Cart' },
+    {
+      icon: <IoIosSearch />,
+      name: "Search",
+    },
+    {
+      icon: <RiDiscountPercentLine />,
+      name: "Offers",
+      sup: "New",
+    },
+    {
+      icon: <LiaHandsHelpingSolid />,
+      name: "Help",
+    },
+    {
+      icon: <IoIosContact />,
+      name: "Sign In",
+    },
+    {
+      icon: <FaOpencart />,
+      name: "Cart",
+    },
   ];
 
-  const showSideMenu = () => setToggle(true);
-  const hideSideMenu = () => setToggle(false);
+  const showSideMenu = () => {
+    setToggle(true);
+  };
+
+  const hideSideMenu = () => {
+    setToggle(false);
+  };
 
   return (
     <>
-      {/* Overlay for Sidebar */}
+      {/* Overlay */}
       <div
-        className={`fixed inset-0 bg-black bg-opacity-50 transition-opacity duration-500 ${toggle ? 'opacity-100 visible' : 'opacity-0 invisible'}`}
+        className={`fixed inset-0 bg-black bg-opacity-50 transition-opacity duration-500 ${
+          toggle ? "opacity-100 visible" : "opacity-0 invisible"
+        }`}
         onClick={hideSideMenu}
+        style={{ zIndex: toggle ? 50 : -1 }}
       >
+        {/* Sidebar */}
         <div
           onClick={(e) => e.stopPropagation()}
-          className={`w-[300px] bg-white h-full absolute left-0 transition-transform duration-500 ${toggle ? 'translate-x-0' : '-translate-x-full'}`}
-        >
-          <button className='p-4 text-xl' onClick={hideSideMenu}><IoMdClose /></button>
-          <nav className='flex flex-col p-5 gap-4'>
-            {links.map((link, index) => (
-              <li key={index} className='flex items-center gap-3 text-lg hover:text-[#fc8019] cursor-pointer'>
-                {link.icon} {link.name} <sup>{link.sup}</sup>
-              </li>
-            ))}
-          </nav>
-        </div>
+          className="w-[300px] sm:w-[400px] md:w-[500px] bg-white h-full absolute left-0 transition-transform duration-500"
+          style={{
+            transform: toggle ? "translateX(0)" : "translateX(-100%)",
+          }}
+        ></div>
       </div>
 
       {/* Header */}
-      <header className='p-4 shadow-xl text-[#686b78] sticky top-0 bg-white z-[9999] w-full'>
-        <div className='max-w-[1200px] mx-auto flex items-center justify-between'>
-          {/* Left Side */}
-          <div className='flex items-center gap-3'>
-            <button className='md:hidden' onClick={showSideMenu}><FiMenu size={24} /></button>
-            <img src='./src/assets/swiggy-logo.png' className='w-[100px]' alt='Logo' />
-            <div className='hidden md:flex items-center gap-1'>
-              <span className='font-bold border-b-2 border-black'>Serpur</span> Contai, West Bengal, India
-              <RxCaretDown fontSize={25} className='text-[#fc8019]' />
-            </div>
+      <header className="p-[15px] shadow-xl text-[#686b78] sticky top-0 bg-white z-[9999]">
+        <div className="max-w-[1200px] mx-auto flex items-center">
+          {/* Logo */}
+          <div className="w-[100px]">
+            <img src="./src/assets/swiggy-logo.png" className="w-full" alt="Logo" />
           </div>
-          
-          {/* Navigation - Desktop Only */}
-          <nav className='hidden md:flex list-none gap-7 font-semibold text-[18px]'>
+
+          {/* Location */}
+          <div>
+            <span className="font-bold border-b-[3px]"> Serpur </span> Contai, West Bengal, India
+            <RxCaretDown
+              onClick={showSideMenu}
+              fontSize={25}
+              className="font-bold inline text-[1.5rem] text-[#fc8019] cursor-pointer"
+            />
+          </div>
+
+          {/* Navigation */}
+          <nav className="flex list-none gap-7 py-2 ml-auto font-semibold text-[18px]">
             {links.map((link, index) => (
-              <li key={index} className='flex items-center gap-2 hover:text-[#fc8019] cursor-pointer'>
-                {link.icon} {link.name} <sup>{link.sup}</sup>
+              <li key={index} className="flex items-center gap-2 hover:text-[#fc8019] cursor-pointer">
+                {link.icon}
+                {link.name}
+                {link.sup && <sup className="text-red-500">{link.sup}</sup>}
               </li>
             ))}
           </nav>
